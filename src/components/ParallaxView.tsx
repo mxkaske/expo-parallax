@@ -9,7 +9,8 @@ import Animated, {
 } from "react-native-reanimated";
 import { useComponentLayout, useParallax } from "../hooks";
 
-const IN_VIEW_TRHESHOLD = 100;
+const IN_VIEW_TRHESHOLD = 30;
+const DURATION = 500;
 
 export interface ParallaxViewConfigProps {
   onlyOnce?: boolean;
@@ -55,11 +56,14 @@ const ParallaxView = ({
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
+      {
+        scale: withSpring(inView.value ? 1 : 0),
+      },
       // {
-      //   scale: withTiming(inView.value ? 1.1 : 1),
+      //   translateX: withSpring(inView.value ? 0 : 200),
       // },
       {
-        rotate: withSpring(shouldBeActive.value ? 0 : 1),
+        rotate: withSpring(shouldBeActive.value ? 0 : -1),
       },
     ],
   }));

@@ -1,32 +1,39 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { ParallaxScrollView, ParallaxView } from "./src/components";
+import { StyleSheet, View } from "react-native";
+import { ParallaxScrollView } from "./src/components";
 import { Palette, Spacing } from "./src/styles";
 import faker from "faker";
+import { Card, CardContentProps } from "./src/example/components";
 
-const example = [
+const example: CardContentProps[] = [
   {
-    color: Palette.bluetiful,
+    color: "bluetiful",
+    title: "Buetiful",
     text: faker.lorem.paragraphs(2),
   },
   {
-    color: Palette.darkPurple,
+    color: "darkPurple",
+    title: "DarkPurple",
+    text: faker.lorem.paragraphs(1),
+  },
+  {
+    color: "chinaPink",
+    title: "ChinaPink",
+    text: faker.lorem.paragraphs(3),
+  },
+  {
+    color: "richBlack",
+    title: "RichBlack",
     text: faker.lorem.paragraphs(2),
   },
   {
-    color: Palette.chinaPink,
-    text: faker.lorem.paragraphs(2),
+    color: "candyPink",
+    title: "CandyPink",
+    text: faker.lorem.paragraphs(1),
   },
   {
-    color: Palette.richBlack,
-    text: faker.lorem.paragraphs(2),
-  },
-  {
-    color: Palette.candyPink,
-    text: faker.lorem.paragraphs(2),
-  },
-  {
-    color: Palette.mediumSlateBlue,
+    color: "mediumSlateBlue",
+    title: "MediumSlateBlue",
     text: faker.lorem.paragraphs(2),
   },
 ];
@@ -36,22 +43,10 @@ export default function App() {
     <View style={styles.container}>
       <ParallaxScrollView
         style={{ marginVertical: Spacing.xxl, backgroundColor: "white" }}
-        config={{ onlyOnce: true }}
+        //config={{ onlyOnce: true }}
       >
-        {example.map(({ color, text }, index) => (
-          <ParallaxView
-            key={index}
-            style={{
-              marginVertical: Spacing.xl,
-              padding: Spacing.xl,
-              backgroundColor: color,
-            }}
-            transition={{
-              scale: 1.1,
-            }}
-          >
-            <Text style={{ color: "white" }}>{text}</Text>
-          </ParallaxView>
+        {example.map((props, index) => (
+          <Card index={index} {...props} />
         ))}
       </ParallaxScrollView>
     </View>
