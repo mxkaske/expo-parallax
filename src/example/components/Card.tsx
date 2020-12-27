@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: Spacing.l,
     marginHorizontal: Spacing.xl,
-    marginVertical: Spacing.xl,
+    marginVertical: Spacing.l,
     padding: Spacing.xl,
   },
 });
