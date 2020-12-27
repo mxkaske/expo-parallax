@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet } from "react-native";
 import { ParallaxView } from "../../components";
 import { Palette, Spacing, Typography } from "../../styles";
 import TouchableScale from "@jonny/touchable-scale";
@@ -18,6 +18,7 @@ const Card = ({ index, color, text, title }: CardProps) => {
     <ParallaxView
       transition={{
         scale: 1.1,
+        // rotate: 1
       }}
     >
       <TouchableScale
@@ -39,7 +40,6 @@ export default Card;
 const styles = StyleSheet.create({
   container: {
     borderRadius: Spacing.l,
-    marginHorizontal: Spacing.xl,
     marginVertical: Spacing.l,
     padding: Spacing.xl,
   },

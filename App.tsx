@@ -1,6 +1,5 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
-import { Palette } from "./src/styles";
 import { CardList } from "./src/example/components";
 
 export default function App() {
@@ -14,7 +13,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Palette.richBlack,
     alignItems: "center",
     justifyContent: "center",
   },

@@ -1,7 +1,6 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
 import { ParallaxScrollView } from "../../../src/components";
-import { Palette, Spacing } from "../../../src/styles";
+import { Spacing } from "../../../src/styles";
 import faker from "faker";
 import { Card, CardContentProps } from "../components";
 
@@ -41,7 +40,7 @@ const example: CardContentProps[] = [
 const CardList = () => {
   return (
     <ParallaxScrollView
-      style={{ marginVertical: Spacing.xxl, backgroundColor: "white" }}
+      contentContainerStyle={{ padding: Spacing.xl }}
       //config={{ onlyOnce: true }}
     >
       {example.map((props, index) => (
