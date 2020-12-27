@@ -1,2 +1,5 @@
 export { default as ParallaxScrollView } from "./ParallaxScrollView";
-export { default as ParallaxView } from "./ParallaxView";
+export {
+  default as ParallaxView,
+  ParallaxViewConfigProps,
+} from "./ParallaxView";

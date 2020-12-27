@@ -1,10 +1,12 @@
 import { createContext } from "react";
 import { LayoutRectangle } from "react-native";
 import Animated from "react-native-reanimated";
+import { ParallaxViewConfigProps } from "../components";
 
 interface ParallaxContexProps {
   scrollY: Animated.SharedValue<number> | undefined;
   scrollLayout: LayoutRectangle;
+  config?: ParallaxViewConfigProps;
 }
 
 const ParallaxContext = createContext<ParallaxContexProps>({

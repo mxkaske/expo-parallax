@@ -6,12 +6,15 @@ import Animated, {
 } from "react-native-reanimated";
 import { ParallaxContext } from "../context";
 import { useComponentLayout } from "../hooks";
+import { ParallaxViewConfigProps } from "./ParallaxView";
 
 interface ParallaxScrollViewProps extends ScrollViewProps {
   children: ReactNode;
+  config?: ParallaxViewConfigProps;
 }
 const ParallaxScrollView = ({
   children,
+  config,
   ...props
 }: ParallaxScrollViewProps) => {
   const { layout, onLayout } = useComponentLayout();
@@ -23,7 +26,7 @@ const ParallaxScrollView = ({
     },
   });
   return (
-    <ParallaxContext.Provider value={{ scrollY, scrollLayout: layout }}>
+    <ParallaxContext.Provider value={{ scrollY, scrollLayout: layout, config }}>
       <Animated.ScrollView
         onLayout={onLayout}
         onScroll={scrollHandler}
@@ -37,3 +40,9 @@ const ParallaxScrollView = ({
 };
 
 export default ParallaxScrollView;
+
+ParallaxScrollView.defaultProps = {
+  config: {
+    onlyOnce: false,
+  },
+};

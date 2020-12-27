@@ -3,30 +3,63 @@ import { ViewProps } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useDerivedValue,
+  useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { useComponentLayout, useParallax } from "../hooks";
 
 const IN_VIEW_TRHESHOLD = 100;
 
-interface ParallaxViewProps extends ViewProps {
-  children: ReactNode;
+export interface ParallaxViewConfigProps {
+  onlyOnce?: boolean;
 }
 
-const ParallaxView = ({ children, style, ...props }: ParallaxViewProps) => {
-  const { layout, onLayout } = useComponentLayout();
-  const { scrollY, scrollLayout } = useParallax();
+interface ParallaxViewProps extends ViewProps {
+  children: ReactNode;
+  transition?: {
+    scale?: number;
+    translateY?: number;
+    rotate?: number;
+  };
+  //config?: ParallaxViewConfigProps;
+}
 
-  const inView = useDerivedValue(
-    () =>
+const ParallaxView = ({
+  children,
+  style,
+  transition,
+  ...props
+}: ParallaxViewProps) => {
+  const { layout, onLayout } = useComponentLayout();
+  const wasInView = useSharedValue(false);
+  const { scrollY, scrollLayout, config } = useParallax();
+
+  const inView = useDerivedValue(() => {
+    const currentlyInView =
       scrollY.value + IN_VIEW_TRHESHOLD <= layout.y + layout.height &&
-      scrollLayout.height + scrollY.value >= layout.y + IN_VIEW_TRHESHOLD
-  );
+      scrollLayout.height + scrollY.value >= layout.y + IN_VIEW_TRHESHOLD;
+    if (!wasInView.value && currentlyInView && config.onlyOnce) {
+      wasInView.value = true;
+    }
+    return currentlyInView;
+  });
+
+  const shouldBeActive = useDerivedValue(() => {
+    if (inView.value) {
+      return inView.value;
+    } else {
+      return wasInView.value && config?.onlyOnce;
+    }
+  });
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
+      // {
+      //   scale: withTiming(inView.value ? 1.1 : 1),
+      // },
       {
-        scale: withSpring(inView.value ? 1 : 1.3),
+        rotate: withSpring(shouldBeActive.value ? 0 : 1),
       },
     ],
   }));
@@ -43,3 +76,11 @@ const ParallaxView = ({ children, style, ...props }: ParallaxViewProps) => {
 };
 
 export default ParallaxView;
+
+ParallaxView.defaultProps = {
+  transition: {
+    scale: 1,
+    translateY: 0,
+    rotate: 0,
+  },
+};

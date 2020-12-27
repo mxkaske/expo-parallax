@@ -36,6 +36,7 @@ export default function App() {
     <View style={styles.container}>
       <ParallaxScrollView
         style={{ marginVertical: Spacing.xxl, backgroundColor: "white" }}
+        config={{ onlyOnce: true }}
       >
         {example.map(({ color, text }, index) => (
           <ParallaxView
@@ -44,6 +45,9 @@ export default function App() {
               marginVertical: Spacing.xl,
               padding: Spacing.xl,
               backgroundColor: color,
+            }}
+            transition={{
+              scale: 1.1,
             }}
           >
             <Text style={{ color: "white" }}>{text}</Text>
