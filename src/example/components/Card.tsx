@@ -1,7 +1,8 @@
 import React from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, View } from "react-native";
 import { ParallaxView } from "../../components";
 import { Palette, Spacing, Typography } from "../../styles";
+import TouchableScale from "@jonny/touchable-scale";
 
 export interface CardContentProps {
   color: keyof typeof Palette;
@@ -15,17 +16,20 @@ interface CardProps extends CardContentProps {
 const Card = ({ index, color, text, title }: CardProps) => {
   return (
     <ParallaxView
-      key={index}
-      style={{
-        ...styles.container,
-        backgroundColor: Palette[color],
-      }}
       transition={{
         scale: 1.1,
       }}
     >
-      <Text style={{ ...Typography.title, color: "white" }}>{title}</Text>
-      <Text style={{ ...Typography.body, color: "white" }}>{text}</Text>
+      <TouchableScale
+        style={{
+          ...styles.container,
+          backgroundColor: Palette[color],
+        }}
+        onPress={() => null}
+      >
+        <Text style={{ ...Typography.title, color: "white" }}>{title}</Text>
+        <Text style={{ ...Typography.body, color: "white" }}>{text}</Text>
+      </TouchableScale>
     </ParallaxView>
   );
 };

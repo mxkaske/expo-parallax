@@ -46,7 +46,7 @@ export default function App() {
         //config={{ onlyOnce: true }}
       >
         {example.map((props, index) => (
-          <Card index={index} {...props} />
+          <Card key={index} index={index} {...props} />
         ))}
       </ParallaxScrollView>
     </View>

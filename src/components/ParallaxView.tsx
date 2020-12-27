@@ -10,7 +10,6 @@ import Animated, {
 import { useComponentLayout, useParallax } from "../hooks";
 
 const IN_VIEW_TRHESHOLD = 30;
-const DURATION = 500;
 
 export interface ParallaxViewConfigProps {
   onlyOnce?: boolean;
