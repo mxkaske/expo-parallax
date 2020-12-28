@@ -12,8 +12,9 @@ export interface CardContentProps {
 
 interface CardProps extends CardContentProps {
   index: number;
+  onPress: () => void;
 }
-const Card = ({ index, color, text, title }: CardProps) => {
+const Card = ({ index, color, text, title, onPress }: CardProps) => {
   return (
     <ParallaxView
       transition={{
@@ -26,7 +27,7 @@ const Card = ({ index, color, text, title }: CardProps) => {
           ...styles.container,
           backgroundColor: Palette[color],
         }}
-        onPress={() => null}
+        onPress={onPress}
       >
         <Text style={{ ...Typography.title, color: "white" }}>{title}</Text>
         <Text style={{ ...Typography.body, color: "white" }}>{text}</Text>

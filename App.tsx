@@ -1,19 +1,6 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { CardList } from "./src/example/components";
+import { AppNavigator } from "./src/example/navigation";
 
 export default function App() {
-  return (
-    <View style={styles.container}>
-      <CardList />
-    </View>
-  );
+  return <AppNavigator />;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

@@ -1,10 +1,12 @@
-import React from "react";
-import { ParallaxScrollView } from "../../../src/components";
-import { Spacing } from "../../../src/styles";
+import { CardContentProps } from "./components";
 import faker from "faker";
-import { Card, CardContentProps } from "../components";
 
-const example: CardContentProps[] = [
+export const example: CardContentProps[] = [
+  {
+    color: "maximumPurple",
+    title: "MaximiumPurple",
+    text: faker.lorem.paragraphs(2),
+  },
   {
     color: "bluetiful",
     title: "Buetiful",
@@ -36,18 +38,3 @@ const example: CardContentProps[] = [
     text: faker.lorem.paragraphs(2),
   },
 ];
-
-const CardList = () => {
-  return (
-    <ParallaxScrollView
-      contentContainerStyle={{ padding: Spacing.xl }}
-      //config={{ onlyOnce: true }}
-    >
-      {example.map((props, index) => (
-        <Card key={index} index={index} {...props} />
-      ))}
-    </ParallaxScrollView>
-  );
-};
-
-export default CardList;
