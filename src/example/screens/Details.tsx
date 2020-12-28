@@ -1,22 +1,21 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import { AppNavigationProps } from "../components/Navigation";
 import { Palette, Typography, Spacing } from "../styles";
-import { example } from "../config";
 
 const Details = ({ route }: AppNavigationProps<"Details">) => {
-  const index = route.params?.index || 0;
-  const item = example[index];
+  const card = route.params.card;
   return (
     <View
       style={{
         flex: 1,
-        backgroundColor: Palette[item.color],
+        backgroundColor: Palette[card.color],
         padding: Spacing.xl,
       }}
     >
-      <Text style={{ ...Typography.title, color: "white" }}>{item.title}</Text>
-      <Text style={{ ...Typography.body, color: "white" }}>{item.text}</Text>
+      <View />
+      <Text style={{ ...Typography.title, color: "white" }}>{card.title}</Text>
+      <Text style={{ ...Typography.body, color: "white" }}>{card.text}</Text>
     </View>
   );
 };

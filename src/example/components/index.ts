@@ -1,2 +1,2 @@
-export { default as Card, CardContentProps } from "./Card";
+export { default as Card, CardProps } from "./Card";
 export { AppRoutes, AppNavigationProps } from "./Navigation";

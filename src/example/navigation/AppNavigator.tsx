@@ -2,8 +2,9 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Details, List } from "../screens";
+import { AppRoutes } from "../components";
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<AppRoutes>();
 
 const AppNavigator = () => {
   return (

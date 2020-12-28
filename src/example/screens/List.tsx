@@ -6,19 +6,20 @@ import { Card } from "../components";
 import { AppNavigationProps } from "../components/Navigation";
 import { example } from "../config";
 
-const List = ({ navigation, route }: AppNavigationProps<"List">) => {
+const defaultConfig = { onlyOnce: true };
+
+const List = ({ navigation }: AppNavigationProps<"List">) => {
   return (
     <View style={{ backgroundColor: Palette.androidGreen }}>
       <ParallaxScrollView
         contentContainerStyle={{ padding: Spacing.xl }}
-        //config={{ onlyOnce: true }}
+        //config={defaultConfig}
       >
-        {example.map((props, index) => (
+        {example.map((card, index) => (
           <Card
             key={index}
-            index={index}
-            onPress={() => navigation.push("Details", { index })}
-            {...props}
+            onPress={() => navigation.push("Details", { card })}
+            {...card}
           />
         ))}
       </ParallaxScrollView>
