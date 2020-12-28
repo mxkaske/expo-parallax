@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, StyleSheet } from "react-native";
 import { ParallaxView } from "../../components";
-import { Palette, Spacing, Typography } from "../../styles";
+import { Palette, Spacing, Typography } from "../styles";
 import TouchableScale from "@jonny/touchable-scale";
 
 export interface CardContentProps {
@@ -43,5 +43,13 @@ const styles = StyleSheet.create({
     borderRadius: Spacing.l,
     marginVertical: Spacing.l,
     padding: Spacing.xl,
+    shadowColor: Palette.richBlack,
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 10.32,
+    elevation: 16,
   },
 });

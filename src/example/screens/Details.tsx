@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { AppNavigationProps } from "../components/Navigation";
-import { Palette, Typography, Spacing } from "../../styles";
+import { Palette, Typography, Spacing } from "../styles";
 import { example } from "../config";
 
 const Details = ({ route }: AppNavigationProps<"Details">) => {

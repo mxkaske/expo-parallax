@@ -1,14 +1,14 @@
 import React from "react";
 import { View } from "react-native";
 import { ParallaxScrollView } from "../../../src/components";
-import { Spacing } from "../../../src/styles";
+import { Palette, Spacing } from "../styles";
 import { Card } from "../components";
 import { AppNavigationProps } from "../components/Navigation";
 import { example } from "../config";
 
 const List = ({ navigation, route }: AppNavigationProps<"List">) => {
   return (
-    <View>
+    <View style={{ backgroundColor: Palette.androidGreen }}>
       <ParallaxScrollView
         contentContainerStyle={{ padding: Spacing.xl }}
         //config={{ onlyOnce: true }}
