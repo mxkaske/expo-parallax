@@ -12,13 +12,24 @@ export interface CardProps {
   onPress?: () => void;
 }
 const Card = ({ id, color, text, title, onPress }: CardProps) => {
+  const config =
+    id === "3"
+      ? {
+          onlyOnce: true,
+          transition: {
+            scale: 1,
+            rotate: 0,
+            opacity: 1,
+          },
+          initial: {
+            scale: 0.6,
+            rotate: 0,
+            opacity: 1,
+          },
+        }
+      : {};
   return (
-    <ParallaxView
-      transition={{
-        scale: 1.1,
-        // rotate: 1
-      }}
-    >
+    <ParallaxView config={config}>
       <TouchableScale onPress={onPress}>
         <View style={styles.container}>
           <View
