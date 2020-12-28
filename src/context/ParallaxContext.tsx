@@ -6,7 +6,7 @@ import { ParallaxViewConfigProps } from "../components";
 interface ParallaxContexProps {
   scrollY: Animated.SharedValue<number> | undefined;
   scrollLayout: LayoutRectangle;
-  config?: ParallaxViewConfigProps;
+  parallaxConfig: ParallaxViewConfigProps;
 }
 
 const ParallaxContext = createContext<ParallaxContexProps>({
@@ -17,6 +17,7 @@ const ParallaxContext = createContext<ParallaxContexProps>({
     width: 0,
     height: 0,
   },
+  parallaxConfig: {},
 });
 
 export default ParallaxContext;

@@ -26,7 +26,13 @@ const ParallaxScrollView = ({
     },
   });
   return (
-    <ParallaxContext.Provider value={{ scrollY, scrollLayout: layout, config }}>
+    <ParallaxContext.Provider
+      value={{
+        scrollY,
+        scrollLayout: layout,
+        parallaxConfig: config || {},
+      }}
+    >
       <Animated.ScrollView
         onLayout={onLayout}
         onScroll={scrollHandler}
@@ -40,9 +46,3 @@ const ParallaxScrollView = ({
 };
 
 export default ParallaxScrollView;
-
-ParallaxScrollView.defaultProps = {
-  config: {
-    onlyOnce: false,
-  },
-};
