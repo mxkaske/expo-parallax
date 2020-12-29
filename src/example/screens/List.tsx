@@ -1,12 +1,15 @@
 import React from "react";
 import { View } from "react-native";
-import { ParallaxScrollView } from "../../../src/components";
+import {
+  ParallaxScrollView,
+  ParallaxViewConfigProps,
+} from "../../../src/components";
 import { Palette, Spacing } from "../styles";
 import { Card } from "../components";
 import { AppNavigationProps } from "../components/Navigation";
 import { example } from "../config";
 
-const defaultConfig = {
+const defaultConfig: ParallaxViewConfigProps = {
   onlyOnce: false,
   transition: {
     scale: 1,

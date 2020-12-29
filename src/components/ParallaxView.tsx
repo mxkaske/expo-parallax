@@ -6,9 +6,11 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
+  interpolate,
+  Extrapolate,
 } from "react-native-reanimated";
 import { useComponentLayout, useParallax } from "../hooks";
-import { toDeg, toRad } from "react-native-redash";
+import { InViewContext } from "../context";
 
 const IN_VIEW_TRHESHOLD = 50;
 
@@ -51,6 +53,19 @@ const ParallaxView = ({
       wasInView.value = true;
     }
     return currentlyInView;
+  });
+
+  const inViewProgress = useDerivedValue(() => {
+    if (inView) {
+      return interpolate(
+        scrollY.value + scrollLayout.height,
+        [layout.y, layout.y + layout.height],
+        [0, 1],
+        Extrapolate.CLAMP
+      );
+    } else {
+      return 0;
+    }
   });
 
   const shouldBeActive = useDerivedValue(() => {
@@ -104,13 +119,15 @@ const ParallaxView = ({
   }));
 
   return (
-    <Animated.View
-      onLayout={onLayout}
-      style={[style, animatedStyle]}
-      {...props}
-    >
-      {children}
-    </Animated.View>
+    <InViewContext.Provider value={{ inView, inViewProgress }}>
+      <Animated.View
+        onLayout={onLayout}
+        style={[style, animatedStyle]}
+        {...props}
+      >
+        {children}
+      </Animated.View>
+    </InViewContext.Provider>
   );
 };
 

@@ -13,7 +13,7 @@ export const example: CardProps[] = [
     id: "2",
     color: "bluetiful",
     title: "Buetiful",
-    text: faker.lorem.paragraphs(2),
+    text: faker.lorem.paragraphs(1),
     image: {
       source: assets[1],
       height: 496,
@@ -25,6 +25,11 @@ export const example: CardProps[] = [
     color: "darkPurple",
     title: "DarkPurple",
     text: faker.lorem.paragraphs(1),
+    image: {
+      source: assets[2],
+      height: 809,
+      width: 1094,
+    },
   },
   {
     id: "4",

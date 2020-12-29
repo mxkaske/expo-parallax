@@ -1,8 +1,15 @@
 import React, { useState } from "react";
 import { Image, ImageSourcePropType, StyleSheet, View } from "react-native";
-import { useComponentLayout } from "../../hooks";
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+  useDerivedValue,
+} from "react-native-reanimated";
+import { useComponentLayout, useInView } from "../../hooks";
+import { mix } from "react-native-redash";
 import { Spacing } from "../styles";
 
+const FACTOR = 1.2;
 export interface CardImageProps {
   source: ImageSourcePropType;
   height: number;
@@ -11,13 +18,33 @@ export interface CardImageProps {
 
 const CardImage = ({ source, height, width }) => {
   const { layout, onLayout } = useComponentLayout();
+  const { inViewProgress } = useInView();
   const aspectRatio = height / width;
+
+  const factorizeProcess = useDerivedValue(() => {
+    if (inViewProgress.value * FACTOR <= 1) {
+      return inViewProgress.value * FACTOR;
+    } else {
+      return 1;
+    }
+  });
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: mix(factorizeProcess.value, -layout.width, 0) }],
+  }));
+
   return (
     <View style={style.container} onLayout={onLayout}>
-      <Image
+      <Animated.Image
         source={source}
-        resizeMode="contain"
-        style={{ width: layout.width, height: layout.width * aspectRatio }}
+        resizeMode="cover"
+        style={[
+          {
+            width: layout.width,
+            height: layout.width * aspectRatio,
+          },
+          animatedStyle,
+        ]}
       />
     </View>
   );
@@ -27,9 +54,8 @@ export default CardImage;
 
 const style = StyleSheet.create({
   container: {
-    maxHeight: 250,
-    overflow: "hidden",
     borderTopLeftRadius: Spacing.l,
     borderTopRightRadius: Spacing.l,
+    overflow: "hidden",
   },
 });
