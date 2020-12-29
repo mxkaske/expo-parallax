@@ -1,5 +1,6 @@
 import { CardProps } from "./components";
 import faker from "faker";
+import { assets } from "./index";
 
 export const example: CardProps[] = [
   {
@@ -13,6 +14,11 @@ export const example: CardProps[] = [
     color: "bluetiful",
     title: "Buetiful",
     text: faker.lorem.paragraphs(2),
+    image: {
+      source: assets[1],
+      height: 496,
+      width: 763,
+    },
   },
   {
     id: "3",
@@ -37,9 +43,14 @@ export const example: CardProps[] = [
     color: "candyPink",
     title: "CandyPink",
     text: faker.lorem.paragraphs(1),
+    image: {
+      source: assets[0],
+      height: 688,
+      width: 1173,
+    },
   },
   {
-    id: "7",
+    id: "",
     color: "mediumSlateBlue",
     title: "MediumSlateBlue",
     text: faker.lorem.paragraphs(2),
