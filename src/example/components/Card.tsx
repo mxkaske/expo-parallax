@@ -14,7 +14,6 @@ export interface CardProps {
   onPress?: () => void;
 }
 const Card = ({ id, color, text, title, image, onPress }: CardProps) => {
-  const aspectRatio = image?.height / image?.width;
   const config =
     id === "3"
       ? {
@@ -28,6 +27,9 @@ const Card = ({ id, color, text, title, image, onPress }: CardProps) => {
             scale: 0.6,
             rotate: 0,
             opacity: 1,
+          },
+          scroll: {
+            translateY: -200,
           },
         }
       : {};

@@ -8,9 +8,11 @@ import Animated, {
   withTiming,
   interpolate,
   Extrapolate,
+  withSequence,
 } from "react-native-reanimated";
 import { useComponentLayout, useParallax } from "../hooks";
 import { InViewContext } from "../context";
+import { mix } from "react-native-redash";
 
 const IN_VIEW_TRHESHOLD = 50;
 
@@ -27,6 +29,9 @@ export interface ParallaxViewConfigProps {
     translateY?: number;
     rotate?: number;
     opacity?: number;
+  };
+  scroll?: {
+    translateY?: number;
   };
 }
 
@@ -55,12 +60,38 @@ const ParallaxView = ({
     return currentlyInView;
   });
 
+  const viewProgress = useDerivedValue(() => {
+    if (inView) {
+      return interpolate(
+        scrollY.value + scrollLayout.height,
+        [layout.y, layout.y + scrollLayout.height],
+        [0, 1],
+        Extrapolate.CLAMP
+      );
+    } else {
+      return 0;
+    }
+  });
+
   const inViewProgress = useDerivedValue(() => {
     if (inView) {
       return interpolate(
         scrollY.value + scrollLayout.height,
         [layout.y, layout.y + layout.height],
         [0, 1],
+        Extrapolate.CLAMP
+      );
+    } else {
+      return 0;
+    }
+  });
+
+  const restProgress = useDerivedValue(() => {
+    if (inView) {
+      return interpolate(
+        scrollY.value + scrollLayout.height,
+        [layout.y, layout.y + layout.height, layout.y + scrollLayout.height],
+        [0, 0, 1],
         Extrapolate.CLAMP
       );
     } else {
@@ -100,6 +131,20 @@ const ParallaxView = ({
     return withSpring(shouldBeActive.value ? transition : initial);
   });
 
+  const translateY = useDerivedValue(() => {
+    const initial =
+      config?.initial?.translateY || config?.initial?.translateY === 0
+        ? config.initial.translateY
+        : parallaxConfig?.initial?.translateY ||
+          defaultConfig.initial.translateY;
+    const transition =
+      config?.transition?.translateY || config?.transition?.translateY === 0
+        ? config.transition.translateY
+        : parallaxConfig?.transition?.translateY ||
+          defaultConfig.transition.translateY;
+    return withSpring(shouldBeActive.value ? transition : initial);
+  });
+
   const opacity = useDerivedValue(() => {
     const initial =
       config?.initial?.opacity || config?.initial?.opacity === 0
@@ -115,11 +160,17 @@ const ParallaxView = ({
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
-    transform: [{ scale: scale.value }, { rotate: rotate.value }],
+    transform: [
+      { scale: scale.value },
+      { rotate: rotate.value },
+      { translateY: translateY.value },
+    ],
   }));
 
   return (
-    <InViewContext.Provider value={{ inView, inViewProgress }}>
+    <InViewContext.Provider
+      value={{ inView, inViewProgress, viewProgress, restProgress }}
+    >
       <Animated.View
         onLayout={onLayout}
         style={[style, animatedStyle]}
@@ -145,5 +196,8 @@ const defaultConfig = {
     translateY: 0,
     rotate: 0,
     opacity: 1,
+  },
+  scroll: {
+    translateY: 0,
   },
 };

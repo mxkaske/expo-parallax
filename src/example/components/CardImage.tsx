@@ -18,10 +18,10 @@ export interface CardImageProps {
 
 const CardImage = ({ source, height, width }) => {
   const { layout, onLayout } = useComponentLayout();
-  const { inViewProgress } = useInView();
+  const { inViewProgress, viewProgress, restProgress } = useInView();
   const aspectRatio = height / width;
 
-  const factorizeProcess = useDerivedValue(() => {
+  const factorizeInViewProcess = useDerivedValue(() => {
     if (inViewProgress.value * FACTOR <= 1) {
       return inViewProgress.value * FACTOR;
     } else {
@@ -30,7 +30,12 @@ const CardImage = ({ source, height, width }) => {
   });
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: mix(factorizeProcess.value, -layout.width, 0) }],
+    transform: [
+      { translateX: mix(inViewProgress.value, -layout.width, 0) },
+      {
+        scale: mix(restProgress.value, 1, 1.2),
+      },
+    ],
   }));
 
   return (
