@@ -12,28 +12,25 @@ import Animated, {
 } from "react-native-reanimated";
 import { useComponentLayout, useParallax } from "../hooks";
 import { InViewContext } from "../context";
-import { mix } from "react-native-redash";
+import { workletValue } from "../worklets";
 
 const IN_VIEW_TRHESHOLD = 50;
 
 export interface ParallaxViewConfigProps {
   onlyOnce?: boolean;
-  transition?: {
-    scale?: number;
-    translateY?: number;
-    rotate?: number;
-    opacity?: number;
-  };
-  initial?: {
-    scale?: number;
-    translateY?: number;
-    rotate?: number;
-    opacity?: number;
-  };
+  transition?: AnimationTransitionType;
+  initial?: AnimationTransitionType;
   scroll?: {
     translateY?: number;
   };
 }
+
+export type AnimationTransitionType = {
+  scale?: number;
+  translateY?: number;
+  rotate?: number;
+  opacity?: number;
+};
 
 interface ParallaxViewProps extends ViewProps {
   children: ReactNode;
@@ -108,54 +105,23 @@ const ParallaxView = ({
   });
 
   const scale = useDerivedValue(() => {
-    const initial =
-      config?.initial?.scale || config?.initial?.scale === 0
-        ? config.initial.scale
-        : parallaxConfig?.initial?.scale || defaultConfig.initial.scale;
-    const transition =
-      config?.transition?.scale || config?.transition?.scale === 0
-        ? config.transition.scale
-        : parallaxConfig?.transition?.scale || defaultConfig.transition.scale;
-    return withSpring(shouldBeActive.value ? transition : initial);
+    const { init, trans } = workletValue(parallaxConfig, config, "scale");
+    return withSpring(shouldBeActive.value ? trans : init);
   });
 
   const rotate = useDerivedValue(() => {
-    const initial =
-      config?.initial?.rotate || config?.initial?.rotate === 0
-        ? config.initial.rotate
-        : parallaxConfig?.initial?.rotate || defaultConfig.initial.rotate;
-    const transition =
-      config?.transition?.rotate || config?.transition?.rotate === 0
-        ? config.transition.rotate
-        : parallaxConfig?.transition?.rotate || defaultConfig.transition.rotate;
-    return withSpring(shouldBeActive.value ? transition : initial);
+    const { init, trans } = workletValue(parallaxConfig, config, "rotate");
+    return withSpring(shouldBeActive.value ? trans : init);
   });
 
   const translateY = useDerivedValue(() => {
-    const initial =
-      config?.initial?.translateY || config?.initial?.translateY === 0
-        ? config.initial.translateY
-        : parallaxConfig?.initial?.translateY ||
-          defaultConfig.initial.translateY;
-    const transition =
-      config?.transition?.translateY || config?.transition?.translateY === 0
-        ? config.transition.translateY
-        : parallaxConfig?.transition?.translateY ||
-          defaultConfig.transition.translateY;
-    return withSpring(shouldBeActive.value ? transition : initial);
+    const { init, trans } = workletValue(parallaxConfig, config, "translateY");
+    return withSpring(shouldBeActive.value ? trans : init);
   });
 
   const opacity = useDerivedValue(() => {
-    const initial =
-      config?.initial?.opacity || config?.initial?.opacity === 0
-        ? config.initial.opacity
-        : parallaxConfig?.initial?.opacity || defaultConfig.initial.opacity;
-    const transition =
-      config?.transition?.opacity || config?.transition?.opacity === 0
-        ? config.transition.opacity
-        : parallaxConfig?.transition?.opacity ||
-          defaultConfig.transition.opacity;
-    return withSpring(shouldBeActive.value ? transition : initial);
+    const { init, trans } = workletValue(parallaxConfig, config, "opacity");
+    return withSpring(shouldBeActive.value ? trans : init);
   });
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -183,21 +149,3 @@ const ParallaxView = ({
 };
 
 export default ParallaxView;
-
-const defaultConfig = {
-  transition: {
-    scale: 1,
-    translateY: 0,
-    rotate: 0,
-    opacity: 1,
-  },
-  initial: {
-    scale: 1,
-    translateY: 0,
-    rotate: 0,
-    opacity: 1,
-  },
-  scroll: {
-    translateY: 0,
-  },
-};
